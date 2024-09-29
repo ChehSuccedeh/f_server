@@ -11,17 +11,13 @@ app.use(express.json());
 
 
 app.get("api/stats", (req, res) => {
-
+    const stats = os_manager.getStats();
+    res.json(stats);
 });
 
 
 const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Server in ascolto sulla porta ${PORT}`);
-    for (let i = 0; i < 10; i++){
-        // os_manager.getStats();
-        setInterval(() => {
-            os_manager.getStats();
-        }, 10000);
-    }
+    os_manager.getStats();
 });
