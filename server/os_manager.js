@@ -1,6 +1,6 @@
 const os = require('os');
 const sys_info = require('systeminformation');
-exports.getStats = () => {
+exports.getStats = async () => {
 
     const cpus = os.cpus();
 
@@ -21,9 +21,17 @@ exports.getStats = () => {
     const usedMem = ((totalMem - freeMem) / totalMem) * 100;
     console.log(`Utilizzo RAM: ${usedMem.toFixed(2)}%`);
 
-    const temp = sys_info.cpuTemperature()
+    const temp = await sys_info.cpuTemperature()
     .then(data => {
-        console.log(data);
+        return data.main;
+    })
+    .catch(error => {
+        console.log(error);
     });
     console.log(`Temperatura CPU: ${temp}°C`);
+    return {
+        "CPU_Percentage" : CPU_Percentage,
+        "RAM_Percentage" : usedMem.toFixed(2),
+        "T" : temp
+    }
 }
