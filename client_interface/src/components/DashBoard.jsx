@@ -11,11 +11,22 @@ function DashBoard() {
 	const getStats = async () => {
 		API.getStats()
 		.then((stats) => {
+            // console.log(stats);
 			setCPU_percentage(stats.CPU_percentage);
 			setRAM_percentage(stats.RAM_percentage);
 			setTemperature(stats.T)
 		})
 	}
+
+    useEffect(() => {
+        // Esegui getStats subito e poi ogni 10 secondi
+        getStats();
+        const intervalId = setInterval(getStats, 10000);
+    
+        // Pulisci l'intervallo quando il componente viene smontato
+        return () => clearInterval(intervalId);
+      }, [])
+
     return (
         <div 
             style={{

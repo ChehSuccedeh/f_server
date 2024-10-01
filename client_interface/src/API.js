@@ -28,13 +28,15 @@ const parseJson = async (httpResponse) => {
 }
 
 function getStats(){
-    return httpResponse(fetch(`${SERVER_URL}/stats`))
+    return parseJson(fetch(`${SERVER_URL}/stats`))
         .then((json) => {
+            // console.log(json);
             const server_statistics = {
-                CPU_percentage : json.CPU,
-                RAM_percentage : json.RAM,
+                CPU_percentage : json.CPU_Percentage,
+                RAM_percentage : json.RAM_Percentage,
                 T : json.T
             }
+            // console.log(server_statistics);
             return server_statistics;
         })
 }
