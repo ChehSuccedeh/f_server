@@ -1,5 +1,7 @@
 const os = require('os');
 const sys_info = require('systeminformation');
+const { exec } = require('child_process');
+
 exports.getStats = async () => {
 
     const cpus = os.cpus();
@@ -34,4 +36,13 @@ exports.getStats = async () => {
         "RAM_Percentage" : usedMem.toFixed(2),
         "T" : temp
     }
+}
+
+exports.getProcesses = async () => {
+    const ps = exec('ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head -n 10', (err, stdout, stderr) => {
+        if (err) {
+            console.log(err);
+        }
+        console.log(stdout);
+    });
 }

@@ -62,7 +62,7 @@ function DashBoard() {
                         animationDelay: 0
                     }}
                 />
-                                <GaugeComponent
+                <GaugeComponent
                     value={RAM_percentage}
                     type="radial"
                     labels={{
@@ -88,14 +88,15 @@ function DashBoard() {
                         animationDelay: 0
                     }}
                 />
-                <h1>{Temperature}°C</h1>
+                <p style={{ color: Temperature > 50 ? 'red' : Temperature > 30 ? 'white' : 'blue' }}>
+                    {Temperature}°C
+                </p>
             </div>
             <div name="colonna2">
-                    <h1>Dashboard e testo a caso</h1>
+                <h1>Dashboard e testo a caso</h1>
             </div>
-
         </div>
-	)
+    )
 }
 
 export { DashBoard }
