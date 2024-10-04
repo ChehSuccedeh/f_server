@@ -30,12 +30,17 @@ function DashBoard() {
     return (
         <div 
             style={{
-                display:"grid",
-                gridTemplateColumns:"20% 80%",
+                display:"flex",
+                justifyContent:"space-around",
+                alignItems: "start",
                 gap:"10px",
                 width:"100%"
             }}>
-            <div name="colonna1">
+            <div name="colonna1"
+                style={{
+                    flex: "0 0 20%",
+                }}
+            >
                 <GaugeComponent
                     value={CPU_percentage}
                     type="radial"
@@ -92,7 +97,11 @@ function DashBoard() {
                     {Temperature}°C
                 </p>
             </div>
-            <div name="colonna2">
+            <div name="colonna2"
+                style={{
+                    flex: "0 0 80%",
+                }}
+            >
                 <h1>Dashboard e testo a caso</h1>
             </div>
         </div>

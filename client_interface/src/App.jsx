@@ -26,9 +26,11 @@ function AppWithBrowser() {
 	// }, []);
 
 	return (
+		<div className='container flex'>
 		<Routes>
 			<Route path="/" element={<DashBoard />} />
 		</Routes>
+		</div>
 	)
 
 }

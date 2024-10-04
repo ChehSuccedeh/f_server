@@ -3,7 +3,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-import { SERVER_URL } from "../constants";
+const { SERVER_URL } = require("../constants.js");
 const corsOptions = {origin: ["http://localhost:5173", "http://127.0.0.1:5173", `${SERVER_URL}:5173`]};
 
 const os_manager = require("./os_manager");
