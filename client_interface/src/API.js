@@ -1,4 +1,4 @@
-const SERVER_URL = "http://100.77.130.111:3001/api"
+const SERVER_URL = "http://localhost:3001/api"
 
 const parseJson = async (httpResponse) => {
     return new Promise( (resolve, reject) => {
