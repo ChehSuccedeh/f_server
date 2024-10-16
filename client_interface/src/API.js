@@ -1,3 +1,4 @@
+
 const SERVER_URL = "http://localhost:3001/api"
 
 const parseJson = async (httpResponse) => {
@@ -28,7 +29,9 @@ const parseJson = async (httpResponse) => {
 }
 
 function getStats(){
-    return parseJson(fetch(`${SERVER_URL}/stats`))
+    return parseJson(fetch(`${SERVER_URL}/stats`, {
+        credentials:'include'
+    }))
         .then((json) => {
             // console.log(json);
             const server_statistics = {
@@ -40,5 +43,59 @@ function getStats(){
             return server_statistics;
         })
 }
-const API = { getStats };
+
+function getProcesses(){
+    return parseJson(fetch(`${SERVER_URL}/processes`, {
+        credentials:'include'
+    }))
+        .then((json) => {
+            // console.log(json);
+            const processes = json.array.map( (p) => {
+                return {
+                    CMD: p.CMD,
+                    CPU_Percentage: p.CPU,
+                    RAM_Percentage: p.MEM,
+                    PID: p.PID,
+                    PPID: p.PPID
+                }
+            });
+            // console.log(processes);
+            return processes;
+        })
+        .catch( (err) => {
+            console.log(err);
+        }); 
+}
+
+function login(credentials){
+    return parseJson(fetch(`${SERVER_URL}/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials),
+        credentials: 'include',
+    }))
+    .then((json) => {
+        return json;
+    })
+    .catch((err) => {
+        return err;
+    });
+}
+
+function logout(){
+    return parseJson(fetch(`${SERVER_URL}/logout`, {
+        method: 'DELETE',
+        credentials: 'include',
+    }))
+    .then((json) => {
+        return json;
+    })
+    .catch((err) => {
+        return err;
+    });
+}
+
+const API = { getStats, getProcesses, login, logout };
 export default API;

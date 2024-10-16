@@ -1,0 +1,6 @@
+CREATE TABLE users (
+    username VARCHAR(255) NOT NULL PRIMARY KEY,
+    hash VARCHAR(512) NOT NULL,
+    salt VARCHAR(128) NOT NULL, 
+    admin BOOLEAN NOT NULL
+)

@@ -22,10 +22,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+
 }
 
 h1 {
@@ -69,3 +69,86 @@ button:focus-visible {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.container {
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  top: 60px;
+  width: 20%;
+  position: fixed;
+  left: 0;
+  height: 100%;
+  overflow: auto;
+  
+  align-items: center;
+  z-index: 1;
+}
+.sidebar::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background-color: #333;
+}
+.sidebar-content {
+  margin-top: 20%;
+  width: 100%;
+  align-items: center;
+}
+.content {
+  display: flex;
+  position: relative;
+  top: 60px;
+  left: 20%;
+  width: 80%;
+  padding-left: 20px;
+  overflow-y: auto;
+  height: 100%;
+  z-index: 1;
+}
+
+
+.navbar {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  height: 60px;
+  background-color: #333;
+  color: #fff;
+  width: 100%;
+  z-index: 10;
+}
+
+.nav-user {
+  width: 20%;
+  padding: 0 20px;
+  position: relative;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: flex-start;
+  width: 80%;
+}
+
+.nav-link {
+  padding-inline: 50px;
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+
+  border-left: 1px solid #fff;
+}
+
+
+
+.nav-link:hover {
+  text-decoration: underline;
+}

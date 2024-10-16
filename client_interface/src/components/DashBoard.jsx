@@ -1,36 +1,22 @@
 import { GaugeChart, GaugeChartVariant } from "@fluentui/react-charting";
 import { DefaultPalette } from '@fluentui/react/lib/Styling';
 import TempIcon from './../assets/thermometer.svg?react';
+
 import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuIndicator,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    NavigationMenuViewport,
-} from "@/components/ui/navigation-menu"
-import {
-    Menubar,
-    MenubarCheckboxItem,
-    MenubarContent,
-    MenubarItem,
-    MenubarMenu,
-    MenubarRadioGroup,
-    MenubarRadioItem,
-    MenubarSeparator,
-    MenubarShortcut,
-    MenubarSub,
-    MenubarSubContent,
-    MenubarSubTrigger,
-    MenubarTrigger,
-  } from "@/components/ui/menubar"
-import { useEffect, useState } from 'react'
-import API from '../API.js'
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+
+import { useEffect, useState } from 'react';
+import API from '../API.js';
 
 function GaugeComponent(props) {
-    
+
     return (
         <GaugeChart
             className="gauge"
@@ -41,7 +27,7 @@ function GaugeComponent(props) {
                 { color: 'yellow', size: 30 },
                 { color: 'red', size: 30 },
             ]}
-            
+
             variant={GaugeChartVariant.MultipleSegments}
             hideLegend={true}
         />
@@ -96,15 +82,32 @@ function TemperatureIndicator(props) {
     // console.log(interpolatedColor);
     return (
         <>
-            <TempIcon fill={interpolatedColor} width="100" height="100" />
+            <div style={{
+                display: "flex"
+                , justifyContent: "center"
+            }}>
+                <TempIcon fill={interpolatedColor} width="100" height="100" />
+            </div>
             <span>{T}°C</span>
         </>
+    )
+}
+function ProcessRow(props) {
+    return (
+        <TableRow>
+            <TableCell>{props.value.PID}</TableCell>
+            <TableCell>{props.value.PPID}</TableCell>
+            <TableCell>{props.value.CMD}</TableCell>
+            <TableCell>{props.value.CPU_Percentage}%</TableCell>
+            <TableCell>{props.value.RAM_Percentage}%</TableCell>
+        </TableRow>
     )
 }
 function DashBoard() {
     const [CPU_percentage, setCPU_percentage] = useState(40);
     const [RAM_percentage, setRAM_percentage] = useState(40);
     const [Temperature, setTemperature] = useState(25);
+    const [processes, setProcesses] = useState([]);
 
     const getStats = async () => {
         API.getStats()
@@ -115,126 +118,69 @@ function DashBoard() {
                 //setTemperature(stats.T)
             })
     }
+    const getProccesses = async () => {
+        API.getProcesses()
+            .then((processes) => {
+                // console.log(processes);
+                setProcesses(processes);
+            })
+    }
 
     useEffect(() => {
         // Esegui getStats subito e poi ogni 10 secondi
         getStats();
-        const intervalId = setInterval(getStats, 10000);
+        getProccesses();
+        const interval = setInterval(() => { 
+            console.log("useEffect");
+            getStats();
+            getProccesses();
+        }, 3000);
 
         // Pulisci l'intervallo quando il componente viene smontato
-        return () => clearInterval(intervalId);
+        return () => {
+            clearInterval(interval);
+        };
+
     }, [])
 
     return (
         <>
-            <Menubar>
-                <MenubarMenu>
-                    <MenubarTrigger>File</MenubarTrigger>
-                    <MenubarContent>
-                        <MenubarItem>
-                            New Tab <MenubarShortcut>⌘T</MenubarShortcut>
-                        </MenubarItem>
-                        <MenubarItem>
-                            New Window <MenubarShortcut>⌘N</MenubarShortcut>
-                        </MenubarItem>
-                        <MenubarItem disabled>New Incognito Window</MenubarItem>
-                        <MenubarSeparator />
-                        <MenubarSub>
-                            <MenubarSubTrigger>Share</MenubarSubTrigger>
-                            <MenubarSubContent>
-                                <MenubarItem>Email link</MenubarItem>
-                                <MenubarItem>Messages</MenubarItem>
-                                <MenubarItem>Notes</MenubarItem>
-                            </MenubarSubContent>
-                        </MenubarSub>
-                        <MenubarSeparator />
-                        <MenubarItem>
-                            Print... <MenubarShortcut>⌘P</MenubarShortcut>
-                        </MenubarItem>
-                    </MenubarContent>
-                </MenubarMenu>
-                <MenubarMenu>
-                    <MenubarTrigger>Edit</MenubarTrigger>
-                    <MenubarContent>
-                        <MenubarItem>
-                            Undo <MenubarShortcut>⌘Z</MenubarShortcut>
-                        </MenubarItem>
-                        <MenubarItem>
-                            Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
-                        </MenubarItem>
-                        <MenubarSeparator />
-                        <MenubarSub>
-                            <MenubarSubTrigger>Find</MenubarSubTrigger>
-                            <MenubarSubContent>
-                                <MenubarItem>Search the web</MenubarItem>
-                                <MenubarSeparator />
-                                <MenubarItem>Find...</MenubarItem>
-                                <MenubarItem>Find Next</MenubarItem>
-                                <MenubarItem>Find Previous</MenubarItem>
-                            </MenubarSubContent>
-                        </MenubarSub>
-                        <MenubarSeparator />
-                        <MenubarItem>Cut</MenubarItem>
-                        <MenubarItem>Copy</MenubarItem>
-                        <MenubarItem>Paste</MenubarItem>
-                    </MenubarContent>
-                </MenubarMenu>
-                <MenubarMenu>
-                    <MenubarTrigger>View</MenubarTrigger>
-                    <MenubarContent>
-                        <MenubarCheckboxItem>Always Show Bookmarks Bar</MenubarCheckboxItem>
-                        <MenubarCheckboxItem checked>
-                            Always Show Full URLs
-                        </MenubarCheckboxItem>
-                        <MenubarSeparator />
-                        <MenubarItem inset>
-                            Reload <MenubarShortcut>⌘R</MenubarShortcut>
-                        </MenubarItem>
-                        <MenubarItem disabled inset>
-                            Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut>
-                        </MenubarItem>
-                        <MenubarSeparator />
-                        <MenubarItem inset>Toggle Fullscreen</MenubarItem>
-                        <MenubarSeparator />
-                        <MenubarItem inset>Hide Sidebar</MenubarItem>
-                    </MenubarContent>
-                </MenubarMenu>
-                <MenubarMenu>
-                    <MenubarTrigger>Profiles</MenubarTrigger>
-                    <MenubarContent>
-                        <MenubarRadioGroup value="benoit">
-                            <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
-                            <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
-                            <MenubarRadioItem value="Luis">Luis</MenubarRadioItem>
-                        </MenubarRadioGroup>
-                        <MenubarSeparator />
-                        <MenubarItem inset>Edit...</MenubarItem>
-                        <MenubarSeparator />
-                        <MenubarItem inset>Add Profile...</MenubarItem>
-                    </MenubarContent>
-                </MenubarMenu>
-            </Menubar>
-            <div className="grid grid-cols-4">
-                <div className="min-w-50">
-                    <div>
+
+
+            <div className="container">
+                <div className="sidebar">
+                    <div className="sidebar-content">
                         <GaugeComponent value={CPU_percentage} />
                         <span>CPU Load</span>
                     </div>
-                    <div>
+                    <div className="sidebar-content">
                         <GaugeComponent value={RAM_percentage} />
-                        <span>RAM Usage</span>
+                        <p>RAM Usage</p>
                     </div>
-                    <div>
+                    <div className="sidebar-content">
                         <TemperatureIndicator value={Temperature} />
-                        <span>Temperature</span>
+                        <p>Temperature</p>
                     </div>
                 </div>
-                <div className="col-span-3">
-                    <h1>Dashboard e testo a caso</h1>
+                <div className="content">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="text-center">PID</TableHead>
+                                <TableHead className="text-center">PPID</TableHead>
+                                <TableHead className="text-center">CMD</TableHead>
+                                <TableHead className="text-center">CPU Percentage</TableHead>
+                                <TableHead className="text-center">RAM Percetage</TableHead>
+                            </TableRow>
+                            {
+                                processes.map((p) => { return <ProcessRow value={p} /> })
+                            }
+                        </TableHeader>
+                    </Table>
                 </div>
             </div>
         </>
     )
 }
 
-export { DashBoard }
+export { DashBoard };
