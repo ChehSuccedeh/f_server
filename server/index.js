@@ -8,7 +8,6 @@ const cors = require("cors");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
-const child_process = require("child_process");
 
 const { SERVER_URL } = require("../constants.js");
 const db_interface = require("./db_interface");
@@ -137,6 +136,13 @@ app.get("/api/processes", isAdminLoggedIn, (req, res) => {
             res.json(err);
         });
 });
+
+// ------- Users Endpoint -------
+app.use(express.static('./frontend'));
+app.get('*', (req, res) =>{
+        res.sendFile('/frontend/index.html', {root: __dirname});
+    }
+);
 
 
 const PORT = 3001;
