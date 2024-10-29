@@ -17,9 +17,11 @@ jobs:
           node-version: '20.x'
 
       - name: Install dependencies
+        working-directory: ./client_interface
         run: npm install
 
       - name: Build
+        working-directory: ./client_interface
         run: npm run build
 
       - name: Release
