@@ -4,7 +4,7 @@ const express = require("express");
 const session = require("express-session");
 const { check, validationResult } = require("express-validator");
 const morgan = require("morgan");
-const cors = require("cors");
+
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
@@ -12,10 +12,6 @@ const LocalStrategy = require("passport-local");
 const { SERVER_URL, SERVER_PORT } = require("../constants.js");
 const db_interface = require("./db_interface");
 
-const corsOptions = { 
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173", `${SERVER_URL}:5173`], 
-    credentials: true 
-};
 
 const os_manager = require("./os_manager");
 
