@@ -13,7 +13,7 @@ exports.SERVER_PORT = SERVER_PORT;
 // Set the first administrator username and password here: 
 // during the first run a privileged user with this credentials will be automatically created
 // feel free to remove this user after the first run
-const username = '';
-const password = '';
+const username = 'admin';
+const password = 'admin';
 exports.username = username;
 exports.password = password;
