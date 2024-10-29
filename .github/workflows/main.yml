@@ -31,6 +31,8 @@ jobs:
       - name: Zip Server
         run: |
           rm -rf client_interface
+          rm -rf .git
+          rm -rf .github
           zip -r server.zip .
 
       - name: Release
