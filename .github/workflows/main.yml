@@ -30,8 +30,3 @@ jobs:
           files: |
             server/*
             constants.js
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          draft: false
-          prerelease: false
