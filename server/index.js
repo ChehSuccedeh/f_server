@@ -9,7 +9,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
 
-const { SERVER_URL } = require("../constants.js");
+const { SERVER_URL, SERVER_PORT } = require("../constants.js");
 const db_interface = require("./db_interface");
 
 const corsOptions = { 
@@ -22,7 +22,7 @@ const os_manager = require("./os_manager");
 const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use(session({
     secret: "secret",
@@ -145,15 +145,14 @@ app.get('*', (req, res) =>{
 );
 
 
-const PORT = 3001;
-app.listen(PORT, () => {
+app.listen(SERVER_PORT, () => {
     // try{
     //     db_interface
     // } catch(err){
     //     console.log(err);
         
     // }
-    console.log(`Server in ascolto sulla porta ${PORT}`);
+    console.log(`Server in ascolto sulla porta ${SERVER_PORT}`);
     // os_manager.getStats();
     // os_manager.getProcesses();
 });
