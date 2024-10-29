@@ -23,10 +23,13 @@ jobs:
       - name: Build
         working-directory: ./client_interface
         run: npm run build
+      
+      - name: Zip Server
+        run: zip -r server.zip server
 
       - name: Release
         uses: softprops/action-gh-release@v2.0.8
         with:
           files: |
-            server
+            server.zip
             constants.js
