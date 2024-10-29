@@ -31,6 +31,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body: ${{ github.event.release.body }}
           draft: false
           prerelease: false
